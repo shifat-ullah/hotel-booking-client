@@ -5,13 +5,14 @@ import {
  
 import Main from "../layout/Main";
 import Home from "../components/home/home/Home";
-import LogIn from "../components/page/login/LogIn";
+
 import SignUp from "../components/page/signup/SignUp";
 import RoomDetails from "../components/roomsDetails/RoomDetails";
 import PrivateRouters from "./PrivateRouters";
 import Rooms from "../components/rooms/Rooms";
 import DashboardLayout from "../layout/DashboardLayout";
 import AddRoom from "../components/dashboard/addRoom/AddRoom";
+import LogIn from "../components/page/login/LogIn";
 
 
   export const router = createBrowserRouter([
