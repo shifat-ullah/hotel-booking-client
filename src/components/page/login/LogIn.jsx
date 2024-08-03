@@ -6,7 +6,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { useContext, useRef } from 'react';
 import { AuthContext } from '../../../providers/AuthProvider';
 import toast from 'react-hot-toast';
-import { TbFidgetSpinner } from 'react-icons/tb';
+import { TbFidgetSpinner } from "react-icons/tb";
 import { savedUser } from '../../Api/auth';
 
 const LogIn = () => {
@@ -55,10 +55,12 @@ const LogIn = () => {
         savedUser(result.user)
         toast.success('LogIn success')
         navigate(from, {replace:true})
+
       })
       .catch((error) => {
         const errorMessage = error.message;
         toast.error(errorMessage)
+        loading(false)
         console.log(errorMessage)
       });
         
@@ -130,6 +132,7 @@ const LogIn = () => {
               type='submit'
               className='bg-rose-500 w-full rounded-md py-3 text-white'
             >
+              
               {
                 loading ? <TbFidgetSpinner  size={26} className='mx-auto animate-spin'></TbFidgetSpinner> : 'Continue'
               }

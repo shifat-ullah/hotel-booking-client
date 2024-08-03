@@ -1,22 +1,23 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { FcGoogle } from 'react-icons/fc'
 import { useContext } from 'react';
 import { AuthContext } from '../../../providers/AuthProvider';
 import { savedUser } from '../../Api/auth';
+import { TbFidgetSpinner } from "react-icons/tb";
 import toast from 'react-hot-toast';
 
 const SignUp = () => {
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const from = location?.state?.from?.pathname || '/'
 
-  const {user,
+  const {
     loading,
     setLoading,
     createUser,
-    signIn,
-    signInWithGoogle,
-    resetPassword,
-    logOut,
     updateUserProfile,}=useContext(AuthContext)
 
   // Handle user registration
@@ -32,7 +33,7 @@ const SignUp = () => {
     formData.append('image', image)
 
     const url = `https://api.imgbb.com/1/upload?key=${
-      import.meta.env.VITE_IMGBB_KEY
+      import.meta.env.VITE_imgbb
     }`
     fetch(url, {
       method: 'POST',
@@ -48,7 +49,7 @@ const SignUp = () => {
               .then(() => {
                 toast.success('Signup successful')
                 savedUser(result.user)
-                // navigate(from, { replace: true })
+                navigate(from, { replace: true })
               })
               .catch(err => {
                 setLoading(false)
@@ -149,7 +150,9 @@ const SignUp = () => {
               type='submit'
               className='bg-rose-500 w-full rounded-md py-3 text-white'
             >
-              Continue
+              {
+                loading ? <TbFidgetSpinner  size={26} className='mx-auto animate-spin'></TbFidgetSpinner> : 'Continue'
+              }
             </button>
           </div>
         </form>

@@ -5,25 +5,49 @@ import { FaFacebook } from "react-icons/fa";
 import { FaInstagramSquare, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Avatar from "./Avater";
+import toast from 'react-hot-toast';
 import { AuthContext } from "../../providers/AuthProvider";
 import HostModal from "../modal/HostRequestModal";
+import { becomeHost } from "../Api/auth";
 
 const NavInfo = () => {
 
-    const { user, logOut } = useContext(AuthContext)
-
+    const { user, logOut,role ,setRole} = useContext(AuthContext)
     const [isOpen, setIsOpen] = useState(false)
+    const [modal, setModal]=useState(false)
+
+console.log(role)
     const toggleOpen = useCallback(() => {
         setIsOpen(value => !value)
     }, [])
 
-    const [modalOpen, setModalOpen] = useState(false)
-    const [modal, setModal]=useState(false)
+    // const [modalOpen, setModalOpen] = useState(false)
+    
 
-    const modalHandler=()=>{
-        setIsOpen(true)
+    /* const modalHandler=(email)=>{
+        becomeHost(email)
+        .then((data) => {
+            console.log(data)
+            toast.success('you are host now. Post Your Rooms')
+        }).catch((error) => {
+            console.log(error.message)
+        });
+    } */
+
+
+        const modalHandler = email => {
+            becomeHost(email).then(data => {
+              console.log(data)
+              toast.success('You are host now, Post Rooms!')
+              setRole('host')
+              closeModal()
+            })
+          }
+
+    const closeModal=()=>{
+        setModal(false)
+        setRole(null)
     }
-
     const signOut = () => {
         logOut()
             .then(() => {
@@ -60,13 +84,17 @@ const NavInfo = () => {
                 <div>
                     <div className='relative '>
                         <div className='flex flex-row items-center gap-3'>
-                            <div className=' text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer bg-orange-500 text-white'>
+                            <div  className=' text-sm font-semibold py-3 px-8 rounded-full  transition   text-white'>
 
-                                Book Your Room Now
+                               {!role&&
+                                 <button onClick={()=>setModal(true)} disabled={!user} className="bg-orange-500  hover:text-black cursor-pointer p-2 rounded hover:bg-neutral-100">Book Your Room Now</button>
+                               }
 
                                 <HostModal
-                                    modalOpen={modal}
+                                    isOpen={modal}
                                     modalHandler={modalHandler}
+                                    closeModal={closeModal}
+                                    email={user?.email}
 
                                 ></HostModal>
 
@@ -135,7 +163,10 @@ const NavInfo = () => {
 
 
                                             <div
-                                                onClick={signOut}
+                                                onClick={()=>{
+                                                    setRole(null)
+                                                    signOut()
+                                                }}
                                                 className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
                                             >
                                                 Logout

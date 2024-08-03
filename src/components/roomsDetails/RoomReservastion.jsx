@@ -1,8 +1,9 @@
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Button from '../button/Button';
 // import BookingModal from '../modal/BookingModa';
 import Calender from './Calender'
+import { AuthContext } from '../../providers/AuthProvider';
 
 
 const RoomReservastion = ({roomData}) => {
@@ -13,6 +14,7 @@ const RoomReservastion = ({roomData}) => {
 
 
     const [isOpen, setIsOpen]=useState(false)
+    const {user, role}=useContext(AuthContext)
 
 
     return (
@@ -36,7 +38,7 @@ const RoomReservastion = ({roomData}) => {
 
             </div>
 
-            {/* <BookingModal isOpen={isOpen}></BookingModal> */}
+            <BookingModal isOpen={isOpen}></BookingModal>
         </div>
     );
 };
