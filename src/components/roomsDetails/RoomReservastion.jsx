@@ -44,8 +44,8 @@ const modalHandler=()=>{
         guest:{
             name:user.displayName,
             email:user.email,
-            photo:user.photoURL
-            
+            photo:user.photoUrl,
+           
         },
 
         host:{
